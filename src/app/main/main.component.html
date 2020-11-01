@@ -1,0 +1,78 @@
+<div id="sub-header">
+
+  <section>
+    <mat-form-field appearance="fill">
+      <mat-select [formControl]="selectedAgentControl">
+        <mat-select-trigger>
+          <section *ngIf="selectedAgentControl.value">
+            <mat-icon>supervised_user_circle</mat-icon>
+            {{selectedAgentControl.value.full_name}}
+          </section>
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let agent of agents" [value]="agent">
+          <mat-icon>supervised_user_circle</mat-icon>
+          {{agent.full_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-select [formControl]="selectedCallControl">
+        <mat-select-trigger>
+          <section *ngIf="selectedCallControl.value">
+            <mat-icon>phone</mat-icon>
+            {{selectedCallControl.value.customer[0].full_name}}
+          </section>
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let call of calls" [value]="call">
+          <mat-icon>phone</mat-icon>
+          {{call.customer[0].full_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+
+  <section>
+    <span>MATCHING SENSITIVITY</span>
+    <mat-slider disabled [formControl]="matchingSensitivityControl"></mat-slider>
+  </section>
+
+</div>
+
+<div>
+  <table mat-table [dataSource]="realCall">
+    <!-- Disclaimer column -->
+    <ng-container matColumnDef="disclaimer">
+      <td mat-footer-cell *matFooterCellDef colspan="2">
+        Please note that the cost of items displayed are completely and totally made up.
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="time">
+      <th mat-header-cell *matHeaderCellDef> Time </th>
+      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="speaker">
+      <th mat-header-cell *matHeaderCellDef> Speaker </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="sentence">
+      <th mat-header-cell *matHeaderCellDef> Sentence </th>
+      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="realCallDisplayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: realCallDisplayedColumns;"></tr>
+
+  </table>
+
+</div>
+
+
+

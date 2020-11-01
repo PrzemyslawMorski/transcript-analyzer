@@ -1,0 +1,9 @@
+#sub-header {
+  padding-left: 32px;
+  height: 56px;
+  background: #EFEFF1;
+}
+
+#sub-header mat-select {
+
+}
