@@ -13,6 +13,12 @@ import {MatSelectModule} from '@angular/material/select';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatTableModule} from '@angular/material/table';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpMockRequestInterceptor} from './interceptors/mock-request.interceptor';
+import {environment} from '../environments/environment';
+import {HttpRequestInterceptor} from './interceptors/request.interceptor';
+
+export const isMock = environment.mock;
 
 @NgModule({
   declarations: [
@@ -23,6 +29,7 @@ import {MatTableModule} from '@angular/material/table';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatIconModule,
     MatToolbarModule,
     MatButtonModule,
@@ -32,7 +39,13 @@ import {MatTableModule} from '@angular/material/table';
     MatSliderModule,
     MatTableModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: isMock ? HttpMockRequestInterceptor : HttpRequestInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

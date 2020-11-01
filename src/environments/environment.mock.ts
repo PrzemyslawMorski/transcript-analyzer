@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  mock: false,
+  production: true,
+  mock: true,
   backend: 'https://backendurl/',
   agentsEndpoint: 'agents/'
 };

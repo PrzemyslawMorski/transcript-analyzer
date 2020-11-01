@@ -3,6 +3,7 @@ import {AgentModel} from '../models/agentModel';
 import {CallModel} from '../models/callModel';
 import {FormControl} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
+import {AgentsService} from '../services/agents.service';
 
 @Component({
   selector: 'app-main',
@@ -15,9 +16,7 @@ export class MainComponent implements OnInit {
   selectedCallControl: FormControl = new FormControl(undefined);
   matchingSensitivityControl: FormControl = new FormControl(0.38);
 
-  agents: AgentModel[] = [
-    {agent_id: '1', email: 'email', full_name: '123 123'}
-  ];
+  agents: AgentModel[] = [];
 
   calls: CallModel[] = [
     {
@@ -41,7 +40,10 @@ export class MainComponent implements OnInit {
 
   expectedCall = new MatTableDataSource();
 
-  constructor() {
+  constructor(private readonly agentsService: AgentsService) {
+    agentsService.getAgents().subscribe(agents => {
+      this.agents = agents;
+    });
   }
 
   ngOnInit(): void {
